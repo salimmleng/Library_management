@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import environ
 env = environ.Env()
 environ.Env.read_env()
@@ -25,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-q%bg0-3ssf-f14mf60o3t=7rc0_=5xpjczhln+ph&j#y@w$*d)'
 
-SECRET_KEY = 'django-insecure-gcc2j@lwrmow%kd0n9m^p@j06q2qt$2dau*3ktd3mtik4yqf7&'
-# SECRET_KEY = env("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-gcc2j@lwrmow%kd0n9m^p@j06q2qt$2dau*3ktd3mtik4yqf7&'
+SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+
 
 
 # Application definition
@@ -86,13 +89,21 @@ WSGI_APPLICATION = 'library_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://library_management_15ox_user:PxUf8T3u8LXPHchGyoTYXmAG7uC4gUZ3@dpg-cpqh3jqj1k6c73bfvu9g-a.oregon-postgres.render.com/library_management_15ox',
+        
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
