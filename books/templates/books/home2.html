@@ -1,0 +1,44 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    
+    <div class='col-md-3 mb-4'>
+      <div class="bg-light rounded p-3 shadow-sm">
+        <h5 class="mb-3">Book Categories</h5>
+        {% for cat in category %}
+        
+        <ul class="list-unstyled">
+          <li class="text-left">
+            <a href="{% url 'category_wise_book' cat.slug %}" class="text-decoration-none text-dark">{{ cat.name }}</a>
+          </li>
+        </ul>
+       
+        {% endfor %}
+      </div>
+    </div>
+
+   
+    <div class="col-md-9">
+      <h3 class='text-center mb-4'>{{book | length}} books found</h3>
+      <div class="row">
+        {% for bk in book %}
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="card h-100 shadow-sm">
+            
+            <img src="{{bk.img.url}}" class="img-fluid" style="object-fit: cover; height: 50%; width: 100%;" alt="{{ bk.title }}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Title: {{ bk.title|truncatewords:5 }}</h5>
+              <h6 class="card-subtitle mb-2">Borrowing price: ${{bk.borrowing_price}}</h6>
+              <p class="card-text">Description: {{bk.description|truncatewords:5}}</p>
+              <a href="{% url 'book_detail' bk.id %}" class="btn btn-outline-warning mt-auto">Book Details</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

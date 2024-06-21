@@ -1,0 +1,63 @@
+{% extends 'books/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card mb-3 mx-auto my-5" style="max-width: 740px;">
+  <div class="row g-0 border">
+    <div class="col-md-6">
+      <img src="{{ book.img.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-6">
+      <div class="card-body">
+        <h5 class="card-title">Category: {{ book.category.name }}</h5>
+        <h5 class="card-title">Book name: {{ book.title }}</h5>
+        <p>Description: {{ book.description }}</p>
+        <p>Price: ${{ book.borrowing_price }}</p>
+
+        {% if user.is_authenticated %}
+          {% if not has_borrowed %}
+          <form method="post" action="{% url 'borrow_book' book.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Borrow Book</button>
+          </form>
+          {% else %}
+            <button type="button" class="btn btn-success" disabled>Already borrowed</button>
+          {% endif %}
+      {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% if user.is_authenticated %}
+<div class="mx-5">
+  <h4>Reviews</h4>
+  <ul>
+    {% for comment in comments %}
+    <li> By {{ comment.name }} - at {{ comment.created_at }}</li>
+    <li>Review: {{ comment.comment }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% else %}
+  <h3 class="mx-5 text-center">You need to <a href="{% url 'login' %}">log in</a> first to buy the book.</h3>
+{% endif %}
+
+{% if user.is_authenticated %}
+  {% if has_borrowed %}
+    <form method="post" action="{% url 'add_review' book.id %}" style="width: 50%; height: 500px" class="mx-5">
+      <h2>Add Review</h2>
+      {% csrf_token %}
+      {{ comment_form|crispy }}
+      <button type="submit"class="btn btn-warning">Submit</button>
+    </form>
+  {% else %}
+    <p class="mx-5">You need to borrow the book to add a review.</p>
+  {% endif %}
+
+
+{% endif %}
+
+{% endblock %}

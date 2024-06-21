@@ -1,0 +1,17 @@
+
+{% extends 'books/base.html '%}
+{% block content %}
+{% load crispy_forms_tags %}
+<form method="post" style="width: 50%; height: 500px; margin:auto;" class="pt-4">
+    {% csrf_token %}
+    <h1>{{type}} page</h1>
+    <!-- {{form|crispy}} -->
+     {% for m in form %}
+     {{m.label_tag}}
+     {{m}}
+     {{m | striptags}}
+     {% endfor %}
+
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>
+{%endblock%}
