@@ -97,14 +97,25 @@ WSGI_APPLICATION = 'library_management.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://library_management_15ox_user:PxUf8T3u8LXPHchGyoTYXmAG7uC4gUZ3@dpg-cpqh3jqj1k6c73bfvu9g-a.oregon-postgres.render.com/library_management_15ox',
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://library_management_15ox_user:PxUf8T3u8LXPHchGyoTYXmAG7uC4gUZ3@dpg-cpqh3jqj1k6c73bfvu9g-a.oregon-postgres.render.com/library_management_15ox',
         
-    )
-}
+#     )
+# }
 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

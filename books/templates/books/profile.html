@@ -29,7 +29,7 @@
         <td>{{borrowed_book.borrowing_date}}</td>
         
         {% if borrowed_book.is_returned  %}
-        <td><button type="submit" class="btn btn-outline-danger btn-sm" disabled>Book Returned</button></td>
+        <td><button type="submit" class="btn btn-danger btn-sm" disabled>Book Returned</button></td>
         {% else %}
         <td>
           <form method="post" action="{% url 'return_book' borrowed_book.id %}">

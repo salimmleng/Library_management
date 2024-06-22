@@ -38,9 +38,6 @@ class BookDetailView(DetailView):
 
 class BorrowBook(View):
     def post(self,request,borrow_book_id):
-        if not request.user.is_authenticated:
-            messages.error(request,'You need to be logged in to perform this action.')
-            return redirect('login')
         book = get_object_or_404(Book, id = borrow_book_id)
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
         user_account = get_object_or_404(UserBankAccount, user=request.user)
@@ -69,10 +66,6 @@ class BorrowBook(View):
 
 class AddReviewView(View):
     def post(self, request, review_book_id):
-        if not request.user.is_authenticated:
-            messages.error(request, 'You need to be logged in to perform this action.')
-            return redirect('login')
-
         book = get_object_or_404(Book, id=review_book_id)
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
 
@@ -88,36 +81,9 @@ class AddReviewView(View):
             comment.book = book
             comment.user_profile = user_profile
             comment.save()
-            messages.success(request, 'Your review has been added successfully.')
-        else:
-            messages.error(request, 'Failed to add your review. Please try again.')
+            messages.success(request, 'Review added successfully.')
 
         return redirect('book_detail', book_id=review_book_id)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
