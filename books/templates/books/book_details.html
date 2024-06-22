@@ -42,7 +42,7 @@
   </ul>
 </div>
 {% else %}
-  <h3 class="mx-5 text-center">You need to <a href="{% url 'login' %}">log in</a> first to buy the book.</h3>
+  <h3 class="mx-5 text-center">You need to <a href="{% url 'login' %}">log in</a> first to borrow the book.</h3>
 {% endif %}
 
 {% if user.is_authenticated %}

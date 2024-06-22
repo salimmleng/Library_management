@@ -40,19 +40,32 @@ class BorrowBook(View):
     def post(self,request,borrow_book_id):
         book = get_object_or_404(Book, id = borrow_book_id)
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
-        user_account = get_object_or_404(UserBankAccount, user=request.user)
+         
+        try:
+            user_account = UserBankAccount.objects.get(user=request.user)
+
+        except UserBankAccount.DoesNotExist:
+            messages.error(request, 'Your bank balance is totally 0, please deposite first')
+
+            return redirect('book_detail',book_id=borrow_book_id)
 
         if user_account.balance >= book.borrowing_price:
             user_account.balance -= book.borrowing_price
             user_account.save()
 
-            borrowed_book, created = BorrowedBook.objects.get_or_create(
-                user_profile=user_profile,
-                book=book,
-                defaults={'balance_after_borrowing': user_account.balance}
-            )
+            try:
+                borrowed_book = BorrowedBook.objects.get(user_profile = user_profile,book = book)
 
-            messages.success(request, f"You have successfully borrowed '{book.title}'. Your account has been charged ${book.borrowing_price}.")
+            except BorrowedBook.DoesNotExist:
+                borrowed_book = BorrowedBook(
+                    user_profile = user_profile,
+                    book = book,
+                    balance_after_borrowing = user_account.balance
+
+                )
+                borrowed_book.save()
+
+                messages.success(request, f"You have successfully borrowed '{book.title}'. Your account has been charged ${book.borrowing_price}.")
 
             send_transaction_email(request.user, user_account.balance, "BookBorrow Message", "books/book_borrow_email.html")
 
