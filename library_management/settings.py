@@ -89,21 +89,21 @@ WSGI_APPLICATION = 'library_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         # Replace this value with your local database's connection string.
-#         default='postgresql://library_management_15ox_user:PxUf8T3u8LXPHchGyoTYXmAG7uC4gUZ3@dpg-cpqh3jqj1k6c73bfvu9g-a.oregon-postgres.render.com/library_management_15ox',
-        
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://library_management_rx6g_user:4qFCX0CG6qPg1NRJK6WZfIsxcbWPMdua@dpg-cslg8d3v2p9s7385ebsg-a.oregon-postgres.render.com/library_management_rx6g',
+        
+    )
+}
 
 
 # DATABASES = {
