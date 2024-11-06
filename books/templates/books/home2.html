@@ -1,38 +1,38 @@
 {% extends 'books/base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-fluid py-4">
+<div class="container py-4">
   <div class="row">
-    
-    <div class='col-md-3 mb-4'>
+    <!-- Category Sidebar -->
+    <div class="col-md-3 mb-4">
       <div class="bg-light rounded p-3 shadow-sm">
-        <h5 class="mb-3">Book Categories</h5>
-        {% for cat in category %}
-        
-        <ul class="list-unstyled">
-          <li class="text-left">
-            <a href="{% url 'category_wise_book' cat.slug %}" class="text-decoration-none text-dark">{{ cat.name }}</a>
-          </li>
-        </ul>
-       
-        {% endfor %}
+        <h5 class="mb-3 text-center" style="font-weight: 600; color: #343a40;">Book Categories</h5>
+        <div class="d-flex flex-wrap gap-2">
+          {% for cat in category %}
+            <a href="{% url 'category_wise_book' cat.slug %}"
+               class="text-decoration-none category-link d-flex align-items-center justify-content-center">
+              {{ cat.name }}
+            </a>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
-   
+    <!-- Books Section -->
     <div class="col-md-9">
-      <h3 class='text-center mb-4'>{{book | length}} books found</h3>
+      <h3 class="text-center mb-4" style="color: #343a40; font-weight: 600;">{{ book | length }} Books Found</h3>
       <div class="row">
         {% for bk in book %}
         <div class="col-md-4 col-lg-3 mb-4">
-          <div class="card h-100 shadow-sm">
+          <div class="card h-100 shadow-sm" style="display: flex; flex-direction: column; height: 100%;">
+            <img src="{{ bk.img.url }}" class="img-fluid rounded-top" 
+                 style="object-fit: cover; height: 50%; width: 100%;" alt="{{ bk.title }}">
             
-            <img src="{{bk.img.url}}" class="img-fluid" style="object-fit: cover; height: 50%; width: 100%;" alt="{{ bk.title }}">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Title: {{ bk.title|truncatewords:5 }}</h5>
-              <h6 class="card-subtitle mb-2">Borrowing price: ${{bk.borrowing_price}}</h6>
-              <p class="card-text">Description: {{bk.description|truncatewords:5}}</p>
-              <a href="{% url 'book_detail' bk.id %}" class="btn btn-outline-warning mt-auto">Book Details</a>
+            <div class="card-body d-flex flex-column p-3">
+              <h5 class="card-title mb-1" style="font-size: 1.1rem; font-weight: 600; color: #343a40;">{{ bk.title|truncatewords:5 }}</h5>
+              <h6 class="card-subtitle text-muted mb-2" style="font-size: 0.9rem;">Borrowing price: ${{ bk.borrowing_price }}</h6>
+              <p class="card-text mb-2" style="font-size: 0.85rem;">{{ bk.description|truncatewords:5 }}</p>
+              <a href="{% url 'book_detail' bk.id %}" class="btn btn-outline-warning btn-sm mt-auto" style="font-weight: 600;">Book Details</a>
             </div>
           </div>
         </div>
@@ -41,4 +41,40 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Styling for category links */
+  .category-link {
+    flex: 0 0 48%;
+    padding: 0.5rem;
+    text-align: center;
+    color: #343a40;
+    background-color: #e5e5e8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Hover effect for category links */
+  .category-link:hover {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  /* Card text and button alignment */
+  .card-body h5, .card-body h6, .card-body p {
+    color: #6c757d;
+  }
+
+  /* Button styling */
+  .card a.btn {
+    font-weight: bold;
+  }
+</style>
+
+
+
 {% endblock %}
+
+

@@ -1,0 +1,18 @@
+.category-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .category-list li {
+    margin-right: 15px; 
+  }
+  
+  .card {
+    transition: transform 0.2s; 
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  

@@ -16,10 +16,13 @@ from .models import Book, UserProfile, BorrowedBook, Review, UserBankAccount
 
 
 class BookDetailView(DetailView):
+
     model = Book
     pk_url_kwarg = 'book_id'
     template_name = 'books/book_details.html'
     context_object_name = 'book'
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +39,11 @@ class BookDetailView(DetailView):
         return context
     
 
+
+    
+
 class BorrowBook(View):
+    
     def post(self,request,borrow_book_id):
         book = get_object_or_404(Book, id = borrow_book_id)
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
